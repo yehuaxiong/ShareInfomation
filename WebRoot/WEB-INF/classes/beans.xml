@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx 
+           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.ssss" />
+
+	<!-- 该 BeanPostProcessor 将自动对标注 @Autowired 的 Bean 进行注入 -->
+	<bean
+		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+
+	<!-- 配置数据源 -->
+	<bean
+		id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property
+			name="driverClassName"
+			value="com.mysql.jdbc.Driver" />
+		<property
+			name="url"
+			value="jdbc:mysql://localhost:3306/db" />
+		<property
+			name="username"
+			value="root" />
+		<property
+			name="password"
+			value="root" />
+	</bean>
+
+
+	<bean
+		id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property
+			name="dataSource"
+			ref="dataSource" />
+		<!-- 扫描单独的实体类 -->
+		<!-- <property name="annotatedClasses"> <list> <value>com.bjsxt.model.User</value> 
+			<value>com.bjsxt.model.Log</value> </list> </property> -->
+		<!-- 扫描整个包下的实体类 -->
+		<property name="packagesToScan">
+			<list>
+				<value>com.ssss.shareInfo.model</value>
+			</list>
+		</property>
+		<!-- 将Hibernate的配置写入Spring中 -->
+		<property name="hibernateProperties">
+			<props>
+				<!-- 数据库方言 -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+
+				<!-- 利用Hibernate启动时自动创建表，详情参见 http://blog.csdn.net/lixuyuan/article/details/8057119 -->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				
+				<!-- <prop key="hibernate.current_session_context_class">thread</prop> -->
+			</props>
+		</property>
+		<!-- 扫描单独的 hbm.xml文件 -->
+		<!-- <property name="mappingResources">
+               <list>
+                  <value>/com/ssss/shareInfo/model/Student.hbm.xml</value>
+                  <value>/com/ssss/shareInfo/model/Admin.hbm.xml</value>
+                  <value>/com/ssss/shareInfo/model/Teacher.hbm.xml</value>
+                  <value>/com/ssss/shareInfo/model/Tree.hbm.xml</value>
+               </list>
+        </property> -->
+        
+        <!-- 扫描整个包下的 hbm.xml文件 -->
+        <property name="mappingDirectoryLocations">
+			<list>
+				<value>classpath:/com/ssss/shareInfo/model</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 配置事务管理器 -->
+	<bean
+		id="txManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property
+			name="sessionFactory"
+			ref="sessionFactory" />
+	</bean>
+
+	<tx:advice
+		id="txAdvice"
+		transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method
+				name="update*"
+				propagation="REQUIRED" />
+			<tx:method
+				name="save*"
+				propagation="REQUIRED" />
+			<tx:method
+				name="add*"
+				propagation="REQUIRED" />
+			<tx:method
+				name="edit*"
+				propagation="REQUIRED" />			
+			<tx:method
+				name="delete*"
+				propagation="REQUIRED" />	
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut
+			id="bussinessService"
+			expression="execution(public * com.ssss.shareInfo.service.*.*(..))" />
+		<aop:advisor
+			advice-ref="txAdvice"
+			pointcut-ref="bussinessService" />
+	</aop:config>
+
+	<bean
+		id="hibernateTemplate"
+		class="org.springframework.orm.hibernate4.HibernateTemplate">
+		<property
+			name="sessionFactory"
+			ref="sessionFactory"></property>
+	</bean>
+	
+</beans>

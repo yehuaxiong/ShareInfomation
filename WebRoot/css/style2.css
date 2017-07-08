@@ -1,0 +1,76 @@
+div{
+    margin: 0px;
+    padding: 0px;
+}
+*{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    background-color: #eee;
+}
+.body{
+   width: 80%;
+    margin: auto;
+    margin-top: 0px;
+}
+.top{
+    height: 100px;
+    width:100%;
+    background-image: url('../images/glybanner.jpg');
+    background-repeat:no-repeat;background-position: right;
+    text-align: center;
+    font-size: 50px;
+    padding-top: 40px;
+    float: left;
+    margin: 0px;
+}
+.center{
+    height: 650px;
+    width: 100%;
+    float: left;
+    margin: 0px;
+    padding: 0px;
+    background-color: #b2ffb2;
+}
+.cleft{
+    width: 25%;
+    height: 650px;
+    float: left;
+    background-color: #b3bdff;
+}
+.cright{
+    width: 75%;
+    height: 100%;
+    float: left;
+    background-color: #ff97a1;
+}
+.ul1{
+
+    margin-left:10%;
+}
+.ul1 li a{
+	 font-size: 20px; 
+}
+.ul1 li a:HOVER{
+	color: red;
+}
+ul1 {
+	 margin-top: 10px;
+}
+li{
+    margin-left: 15%;
+    width: 50%;
+    font-size: 15px;
+    list-style-type: none;
+    margin-top: 10px;
+}
+.ul2 li{
+    float: left;
+    margin: 0px;
+    padding-left: 5%;
+    width: 15%;
+}
+a{
+    text-decoration:none;
+}

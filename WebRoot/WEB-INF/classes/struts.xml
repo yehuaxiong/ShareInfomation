@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 以开发模式运行web应用 -->
+    <constant name="struts.devMode" value="true" />
+    <!-- 整合spring -->
+    <constant name="struts.objectFactory" value="spring"></constant>
+    
+    <!-- <constant name="struts.custom.i18n.resources" value="message"></constant> -->
+    
+    <package name="registration" extends="struts-default">
+        <action name="index">
+            <result name="success">/index.jsp</result>
+        </action>
+        
+        <action name="page_*_*">
+        	<result type="dispatcher">/WEB-INF/pages/{1}/{2}.jsp</result>
+        </action>
+        <!-- 学生登录 -->
+        <action name="student_login" class="com.ssss.shareInfo.action.StudentLoginAction">
+        	<result name="input">/login.jsp</result>
+        	<result name="success" type="redirectAction">page_common_index.action</result>
+        </action>
+        <!-- 教师登录 -->
+        <action name="teacher_login" class="com.ssss.shareInfo.action.TeacherLoginAction">
+        	<result name="input">/login.jsp</result>
+        	<result name="success" type="redirectAction">page_common_index.action</result>
+        </action>
+        <!-- 管理员登录 -->
+        <action name="admin_login" class="com.ssss.shareInfo.action.AdminLoginAction">
+        	<result name="input">/login.jsp</result>
+        	<result name="success" type="redirectAction">page_admin_management.action</result>
+        </action>
+        <!-- 添加学生 -->
+        <action name="student_add" class="com.ssss.shareInfo.action.AddStudentAction">
+        	<!-- <result name="success">/WEB-INF/pages/student/addStudent.jsp</result> -->     
+        </action>
+        
+         <!-- 批量添加学生 -->
+        <action name="student_batch_add" class="com.ssss.shareInfo.action.BatchAddStudentAction">
+        	<result name="success">/WEB-INF/pages/student/batchAddGrid.jsp</result>
+        </action>
+        
+        <!-- 获取学生记录 -->
+        <action name="student_list" class="com.ssss.shareInfo.action.StudentListAction">     
+        </action>
+        
+         <!-- 添加教师 -->
+        <action name="teacher_add" class="com.ssss.shareInfo.action.AddTeacherAction">     
+        </action>
+        
+         <!-- 获取教师记录 -->
+        <action name="teacher_list" class="com.ssss.shareInfo.action.TeacherListAction">     
+        </action>
+        
+        <!-- 获取数据库 树 -->
+        <action name="tree_list" class="com.ssss.shareInfo.action.TreeListAction">     
+        </action>
+        
+        <!-- 获取Department对象集合 -->
+        <action name="department_option" class="com.ssss.shareInfo.action.DeptOptionAction">     
+        </action>
+        
+        <!-- 获取Specialty对象集合 -->
+        <action name="specialty_option" class="com.ssss.shareInfo.action.SpecOptionAction">     
+        </action>
+        
+        <!-- 获取Office对象集合 -->
+        <action name="office_option" class="com.ssss.shareInfo.action.OfcOptionAction">
+        </action>
+        
+        <!-- 获取Claname对象集合 -->
+        <action name="claname_option" class="com.ssss.shareInfo.action.ClaOptionAction">     
+        </action>
+        
+        <!--Student修改界面-->
+        <action name="student_edit" class="com.ssss.shareInfo.action.EditStudentAction">
+        	<result name="success">/WEB-INF/pages/student/editStudentInfo.jsp</result>
+        </action>
+           <!--Student个人修改界面-->
+        <action name="studentperson_edit" class="com.ssss.shareInfo.action.EditStudentAction">
+        	<result name="success">/WEB-INF/pages/student/editPersonInfo.jsp</result>
+        </action>
+         <!--Student个人修改保存-->
+        <action name="studentperson_save" class="com.ssss.shareInfo.action.savestudentPersonAction">
+       	  	<result name="success">/WEB-INF/pages/student/queryPersonInfo.jsp</result>
+        </action>
+        <!--Student个人信息查询界面-->
+        <action name="student_query" class="com.ssss.shareInfo.action.queryStudentPInfo" method="execute">
+        	<result name="success">/WEB-INF/pages/student/queryPersonInfo.jsp</result>
+        </action>
+        
+        <!-- 保存学生 -->
+        <action name="student_save" class="com.ssss.shareInfo.action.SaveStudentAction">
+        	<result name="input">/WEB-INF/pages/student/editStudentInfo.jsp</result>
+        	<result name="success">/WEB-INF/pages/student/studentList.jsp</result>
+        </action>
+        
+        <!-- 批量保存学生 -->
+        <action name="student_batch_save" class="com.ssss.shareInfo.action.SaveBatchStudentAction">       
+        </action>
+        
+        <!-- 删除学生 -->
+        <action name="student_delete" class="com.ssss.shareInfo.action.DeleteStudentAction">
+        	
+        </action>
+        
+         <!--修改教师-->
+        <!-- <action name="teacher_edit">
+        	<result name="success" type="redirectAction">page_teacher_editTeacherInfo.action</result>
+        </action> -->
+        
+        <!-- 保存教师 -->
+        <action name="teacher_save" class="com.ssss.shareInfo.action.SaveTeacherAction">
+        	<result name="input">/WEB-INF/pages/teacher/editTeacherInfo.jsp</result>
+        	<result name="success">/WEB-INF/pages/teacher/teacherList.jsp</result>
+        </action>
+        
+        <!--teacher修改界面-->
+        <action name="teacher_edit" class="com.ssss.shareInfo.action.EditTeacherAction">
+        	<result name="success">/WEB-INF/pages/teacher/editTeacherInfo.jsp</result>
+        </action>
+        
+        
+        <!-- 删除教师 -->
+        <action name="teacher_delete" class="com.ssss.shareInfo.action.DeleteTeacherAction">       	
+        </action>
+        
+          <!--发布公告-->
+        <action name="writenotice" class="com.ssss.shareInfo.action.WriteNotice" method="execute">
+        	<result name="success">/WEB-INF/pages/notice/writeNotice.jsp</result>
+        </action>
+         
+        <!--显示公告-->
+        <action name="ShowNotice"  class="com.ssss.shareInfo.action.WriteNotice" method="showNotice">
+        	<result name="success">/WEB-INF/pages/notice/ShowNotice.jsp</result>
+        	<result name="error">/index.jsp</result>
+        </action>
+        
+        <!--删除公告-->
+        <action name="deleteNotice"  class="com.ssss.shareInfo.action.WriteNotice" method="deleteNotice">
+        </action>
+        
+         <!--管理员删除公告-->
+        <action name="adminDeleteNotice"  class="com.ssss.shareInfo.action.WriteNotice" method="adminDeleteNotice">
+        </action>
+        
+        <!--管理员公告显示-->
+        <action name="adminShowNotice"  class="com.ssss.shareInfo.action.WriteNotice" method="adminShowNotice">
+        	<result name="success">/WEB-INF/pages/notice/adminShowNotice.jsp</result>
+        </action>
+        
+        <!-- 修改密码 -->
+        <action name="edit_pwd" class="com.ssss.shareInfo.action.EditPwdAction">
+        </action>
+        
+        <!-- 好友列表 -->
+        <action name="friendList" class="com.ssss.shareInfo.action.FirendAction" method="FriendList">
+        	<result name="success">/WEB-INF/pages/friend/friendList.jsp</result>
+        </action>
+        
+         <!-- 会话列表 -->
+        <action name="chat" class="com.ssss.shareInfo.action.FirendAction" method="Chat">
+        </action>
+        
+        <!--发送聊天内容 -->
+        <action name="chat_content" class="com.ssss.shareInfo.action.FirendAction" method="Chat_content">
+        </action>
+        
+        <!--会话消息提示 -->
+        <action name="huihua" class="com.ssss.shareInfo.action.FirendAction" method="Huihua">
+        </action>
+        
+    </package>
+<include file="conf/mystruts.xml"></include>
+<!-- <include file="conf/xingstruts.xml"></include> -->
+</struts>
